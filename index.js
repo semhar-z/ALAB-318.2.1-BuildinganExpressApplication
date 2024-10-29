@@ -5,7 +5,8 @@ const port = 3000;
 
 
 app.set('view engine', 'ejs');
-app.use(express.static('public'));
+// app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 
 
@@ -22,7 +23,7 @@ app.get('/', (req, res) => {
   });
   
   app.post('/submit', (req, res) => {
-    console.log(req.body.message); // Logs message to the console
+    console.log(req.body.message); 
     res.send('Message received!');
   });
   
@@ -30,8 +31,20 @@ app.get('/', (req, res) => {
     const name = req.params.name;
     res.send(`Hello, ${name}!`);
   });
+
+  app.get('/download-image', (req, res) => {
+    res.download(__dirname + '/public/image.png', 'downloaded-image.png', (err) => {
+      if (err) {
+        console.error('Error downloading file:', err);
+        res.status(500).send('File could not be downloaded');
+      }
+    });
+  });
   
 
+// i am still working to connect my styles.css
+  
+// codes from class
 // app.get("/", (req, res) => {
 //     res.send("Hello Express!");
 // });
